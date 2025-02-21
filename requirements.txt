@@ -4,3 +4,4 @@ loguru
 aiohttp
 python-dotenv
 flask
+filelock
