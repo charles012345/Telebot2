@@ -115,6 +115,6 @@ if __name__ == "__main__":
     try:
         loop = asyncio.get_event_loop()
         loop.create_task(executor.start_polling(dp, skip_updates=True))
-        flask_app.run(host="0.0.0.0", port=3000)
+        flask_app.run(host="0.0.0.0", port=8080)
     except Exception as e:
         logger.error(f"Failed to start Flask server: {e}")
