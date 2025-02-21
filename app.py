@@ -112,6 +112,9 @@ def index():
 
 if __name__ == "__main__":
     logger.info("Bot is starting...")
-    loop = asyncio.get_event_loop()
-    loop.create_task(executor.start_polling(dp, skip_updates=True))
-    flask_app.run(host="0.0.0.0", port=3000)
+    try:
+        loop = asyncio.get_event_loop()
+        loop.create_task(executor.start_polling(dp, skip_updates=True))
+        flask_app.run(host="0.0.0.0", port=3000)
+    except Exception as e:
+        logger.error(f"Failed to start Flask server: {e}")
