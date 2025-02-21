@@ -8,13 +8,14 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils import executor
 from loguru import logger
 from aiohttp import web
-from python dotenv import load dotenv
+from dotenv import load_dotenv
 import os
-load_dotenv:()
+
+load_dotenv()
 
 # Telegram and OpenAI API keys
-TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
-OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 HOST = "0.0.0.0"
 PORT = 3000
