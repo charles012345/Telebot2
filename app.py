@@ -10,6 +10,7 @@ from loguru import logger
 from flask import Flask, request
 from dotenv import load_dotenv
 import os
+from filelock import FileLock, Timeout
 
 load_dotenv()
 
@@ -111,10 +112,14 @@ def index():
     return "Bot is running!"
 
 if __name__ == "__main__":
-    logger.info("Bot is starting...")
+    lock = FileLock("/tmp/bot.lock")
     try:
-        loop = asyncio.get_event_loop()
-        loop.create_task(executor.start_polling(dp, skip_updates=True))
-        flask_app.run(host="0.0.0.0", port=8080)
+        with lock.acquire(timeout=10):
+            logger.info("Bot is starting...")
+            loop = asyncio.get_event_loop()
+            loop.create_task(executor.start_polling(dp, skip_updates=True))
+            flask_app.run(host="0.0.0.0", port=8080)
+    except Timeout:
+        logger.error("Another instance of the bot is already running.")
     except Exception as e:
         logger.error(f"Failed to start Flask server: {e}")
