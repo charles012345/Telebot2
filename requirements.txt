@@ -1,4 +1,4 @@
-aiogram
+aiogram==2.18
 openai
 loguru
 aiohttp
