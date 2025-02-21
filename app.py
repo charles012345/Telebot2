@@ -7,7 +7,7 @@ from aiogram.types import Message
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils import executor
 from loguru import logger
-from aiohttp import web
+from flask import Flask, request
 from dotenv import load_dotenv
 import os
 
@@ -17,8 +17,6 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
-HOST = "0.0.0.0"
-PORT = 3000
 
 # System instructions
 SYSTEM_INSTRUCTIONS = "You are an AI-powered assistant. Be helpful and concise."
@@ -105,15 +103,15 @@ async def handle_message(message: Message):
     await message.reply(response_text)
     logger.info(f"Response sent to {user_id}: {response}")
 
-# Web server for external access
-async def handle_request(request):
-    return web.Response(text="Bot is running!")
+# Flask application
+flask_app = Flask(__name__)
 
-app = web.Application()
-app.router.add_get("/", handle_request)
+@flask_app.route('/')
+def index():
+    return "Bot is running!"
 
 if __name__ == "__main__":
     logger.info("Bot is starting...")
     loop = asyncio.get_event_loop()
     loop.create_task(executor.start_polling(dp, skip_updates=True))
-    web.run_app(app, host=HOST, port=PORT)
+    flask_app.run(host="0.0.0.0", port=3000)
