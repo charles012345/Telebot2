@@ -2,3 +2,4 @@ aiogram
 openai
 loguru
 aiohttp
+python-dotenv
