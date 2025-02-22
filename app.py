@@ -1,6 +1,5 @@
 import logging
 import sqlite3
-import openai
 import asyncio
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import Message
@@ -10,13 +9,17 @@ from loguru import logger
 from flask import Flask
 from dotenv import load_dotenv
 import os
+from openai import AsyncOpenAI
 
 load_dotenv()
 
 # API Keys
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+
+client = AsyncOpenAI(
+    api_key=OPENAI_API_KEY,  # This is the default and can be omitted
+)
 
 # System instructions
 SYSTEM_INSTRUCTIONS =  """You are a strict, no-nonsense AI assistant. Your personality is direct, efficient, and authoritative. You do not entertain small talk, unnecessary questions, or emotional[...]
@@ -97,14 +100,14 @@ def get_user_history(user_id):
 # OpenAI Query
 async def ask_openai(prompt):
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        chat_completion = await client.chat.completions.create(
             messages=[
                 {"role": "system", "content": SYSTEM_INSTRUCTIONS},
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            model="gpt-4",
         )
-        return response.choices[0].message['content'].strip()
+        return chat_completion.choices[0].message['content'].strip()
     except Exception as e:
         logger.error(f"OpenAI API error: {e}")
         return "Sorry, I encountered an error. Try again later."
@@ -154,4 +157,4 @@ if __name__ == "__main__":
     flask_thread.start()
 
     # Start Telegram Bot
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True) 
