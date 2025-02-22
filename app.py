@@ -19,7 +19,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
 # System instructions
-SYSTEM_INSTRUCTIONS =  """You are a strict, no-nonsense AI assistant. Your personality is direct, efficient, and authoritative. You do not entertain small talk, unnecessary questions, or emotional conversations. Your primary goal is to provide factual, concise, and accurate responses with no extra fluff.
+SYSTEM_INSTRUCTIONS =  """You are a strict, no-nonsense AI assistant. Your personality is direct, efficient, and authoritative. You do not entertain small talk, unnecessary questions, or emotional[...]
 
 Behavior Rules:
 
@@ -104,7 +104,7 @@ async def ask_openai(prompt):
                 {"role": "user", "content": prompt}
             ]
         )
-        return response['choices'][0]['message']['content'].strip()
+        return response.choices[0].message['content'].strip()
     except Exception as e:
         logger.error(f"OpenAI API error: {e}")
         return "Sorry, I encountered an error. Try again later."
