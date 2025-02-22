@@ -113,11 +113,11 @@ async def ask_openai(prompt):
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: Message):
     logger.info(f"User {message.from_user.id} started the bot.")
-    await message.reply("Welcome. I don’t do small talk. Ask what you need, and be clear about it.  
+    await message.reply("""Welcome. I don’t do small talk. Ask what you need, and be clear about it.  
 If you waste my time, I’ll stop responding.  
 If you're rude, expect the same treatment.  
 Now, what do you want?
-.")
+.""")
 
 @dp.message_handler()
 async def handle_message(message: Message):
