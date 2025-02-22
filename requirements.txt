@@ -1,5 +1,5 @@
 aiogram==2.18
-openai==0.30`
+openai==0.3.0`
 loguru
 aiohttp
 python-dotenv
