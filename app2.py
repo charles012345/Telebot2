@@ -9,7 +9,7 @@ from loguru import logger
 from flask import Flask
 from dotenv import load_dotenv
 import os
-import genai  # Import the Google Generative AI library
+import google.generativeai as genai
 
 load_dotenv()
 
