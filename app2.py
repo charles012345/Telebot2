@@ -148,9 +148,8 @@ async def handle_message(message: Message):
 
     # Fetch last 5 messages as history
     history = get_user_history(user_id)[-5:]
-    formatted_history = "\n".join([f"User: {m}\nBot: {r}" for m, r in history])
-    full_prompt = f"{formatted_history}\nUser: {user_text}\nBot:" if history else user_text
-
+    formatted_history = "\n".join([f"{m}\n{r}" for m, r in history])
+    full_prompt = f"{formatted_history}\n{user_text}" if history else user_text
     # Get response
     response = await handle_text_message(full_prompt)
     save_message(user_id, user_text, response)
