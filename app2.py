@@ -6,7 +6,7 @@ from aiogram.types import Message
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils import executor
 from loguru import logger
-from flask import Flask
+from flask import Flask,render_template
 from dotenv import load_dotenv
 import os
 import google.generativeai as genai
@@ -162,7 +162,7 @@ flask_app = Flask(__name__)
 
 @flask_app.route('/')
 def index():
-    return "Bot is running!"
+    return render_template("index.html")
 
 # Run both Telegram Bot and Flask Server
 if __name__ == "__main__":
