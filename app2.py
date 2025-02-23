@@ -174,4 +174,4 @@ if __name__ == "__main__":
     flask_thread.start()
 
     # Start Telegram Bot
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=False)
